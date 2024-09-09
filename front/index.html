@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="styles.css">
+
+    <title>AI Calculadora Obesidade</title>
+    <link rel="icon" href="img/obesidade.jpg" type="image/png">
+</head>
+
+<body>
+     <!-- Cabeçalho de informações do sistema -->
+    <header>
+        <div class="title">
+            <h2>Systema de classificação de obesidade</h2>
+            <br>
+            <p>Este sistema foi desenvolvido para auxiliar na classificação da obesidade levando em consideração os hábitos.</p>
+            <p>Para isso, basta preencher os campos abaixo com os dados do paciente e clicar em "Diagnosticar".</p>
+        </div>
+        <!-- <div class="banner">
+            <img src="img/home.jpeg">
+        </div> -->
+    </header>
+
+     <!-- Opções para adicionar um novo item -->
+     
+    <section class="newItem">
+        <input type="text" id="newInput" placeholder="Name">
+        <input type="text" id="newAge" placeholder="Age">
+        <!-- <input type="text" id="newGender" placeholder="Gender"> -->
+        <label for="newGender">Gender:</label>
+        <select id="newGender">
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+        </select>
+        <input type="text" id="newHeight" placeholder="Height">
+        <input type="text" id="newWeight" placeholder="Weight">
+        <!-- <input type="text" id="newCALC" placeholder="CALC"> -->
+        <label for="newCALC">CALC (Alcohol consumption):</label>
+        <select id="newCALC">
+            <option value="Sometimes">Sometimes</option>
+            <option value="Frequently">Frequently</option>
+            <option value="Always">Always</option>
+            <option value="No">No</option>
+        </select>
+        <!-- <input type="text" id="newFAVC" placeholder="FAVC"> -->
+        <label for="newFAVC">FAVC:</label>
+        <select id="newFAVC">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+        <input type="text" id="newFCVC" placeholder="FCVC">
+        <input type="text" id="newNCP" placeholder="NCP">
+        <!-- <input type="text" id="newSCC" placeholder="SCC"> -->
+        <label for="newSCC">SCC (Calorie monitoring):</label>
+        <select id="newSCC">
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+        </select>
+        <!-- <input type="text" id="newSMOKE" placeholder="SMOKE"> -->
+        <label for="newSMOKE">SMOKE (Do you smoke?):</label>
+        <select id="newSMOKE">
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+        </select>
+        <input type="text" id="newCH2O" placeholder="CH2O">
+        <!-- <input type="text" id="newfamily_history_with_overweight" placeholder="family_history_with_overweight"> -->
+        <label for="newfamily_history_with_overweight">Family History of Overweight:</label>
+        <select id="newfamily_history_with_overweight">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+        <input type="text" id="newFAF" placeholder="FAF">
+        <input type="text" id="newTUE" placeholder="TUE">
+        <!-- <input type="text" id="newCAEC" placeholder="CAEC"> -->
+        <label for="newCAEC">CAEC (Snacking between meals):</label>
+        <select id="newCAEC">
+            <option value="Sometimes">Sometimes</option>
+            <option value="Frequently">Frequently</option>
+            <option value="Always">Always</option>
+            <option value="No">No</option>
+        </select>
+        <!-- <input type="text" id="newMTRANS" placeholder="MTRANS"> -->
+        <label for="newMTRANS">MTRANS (Mode of transport):</label>
+        <select id="newMTRANS">
+            <option value="Automobile">Automobile</option>
+            <option value="Bike">Bike</option>
+            <option value="Motorbike">Motorbike</option>
+            <option value="Public_Transportation">Public Transportation</option>
+            <option value="Walking">Walking</option>
+        </select>
+        <span onclick="newItem()" class="addBtn">Diagnosticar</span>
+    </section>
+
+    <!-- Tabela com items existentes -->
+    <section class="items">
+        <table id="myTable">
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Height</th>
+                <th>Weight</th>
+                <th>CALC</th>
+                <th>FAVC</th>
+                <th>FCVC</th>
+                <th>NCP</th>
+                <th>SCC</th>
+                <th>SMOKE</th>
+                <th>CH2O</th>
+                <th>family_history_with_overweight</th>
+                <th>FAF</th>
+                <th>TUE</th>
+                <th>CAEC</th>
+                <th>MTRANS</th>
+                <th>NObeyesdad</th>
+                <th><img src="https://cdn-icons-png.flaticon.com/512/126/126468.png" width="15" height="15"></th>
+                <!-- <th><img src="img/edit.png" width="15" height="15"></th> -->
+            </tr>
+        </table>
+    </section>
+    
+      <!-- Legendas abaixo da tabela -->
+      <section class="legends">
+        <h3>Legendas:</h3>
+        <ul>
+            <li><strong>Age(Idade):</strong> Característica, Contínua, "Idade"</li>
+            <li><strong>Gender(Gênero):</strong> Característica, Categórica, "Gênero"</li>
+            <li><strong>Height(Altura):</strong> Característica, Contínua</li>
+            <li><strong>Weight(Peso):</strong> Característica, Contínua</li>
+            <li><strong>CALC:</strong> Característica, Categórica, "Com que frequência você consome álcool?"</li>            
+            <li><strong>FAVC:</strong> Característica, Binária, "Você consome alimentos de alto teor calórico com frequência?"</li>
+            <li><strong>FCVC:</strong> Característica, Inteira, "Você costuma comer vegetais em suas refeições?"</li>
+            <li><strong>NCP:</strong> Característica, Contínua, "Quantas refeições principais você faz diariamente?"</li>
+            <li><strong>SCC:</strong> Característica, Binária, "Você monitora as calorias que consome diariamente?"</li>
+            <li><strong>SMOKE(FUMA):</strong> Característica, Binária, "Você fuma?"</li>
+            <li><strong>CH2O:</strong> Característica, Contínua, "Quanta água você bebe diariamente?"</li>
+            <li><strong>family_history_with_overweight(Histórico familiar de sobrepeso):</strong> Característica, Binária, "Algum membro da família já sofreu ou sofre de sobrepeso?"</li>
+            <li><strong>FAF:</strong> Característica, Contínua, "Com que frequência você pratica atividade física?"</li>
+            <li><strong>TUE:</strong> Característica, Inteira, "Quanto tempo você usa dispositivos tecnológicos como celular, videogames, televisão, computador e outros?"</li>
+            <li><strong>CAEC:</strong> Característica, Categórica, "Você come algum alimento entre as refeições?"</li>
+            <li><strong>MTRANS:</strong> Característica, Categórica, "Qual meio de transporte você costuma usar?"</li>
+            <li><strong>NObeyesdad:</strong> Alvo, Categórica, "Nível de obesidade"</li>
+        </ul>
+    </section>
+
+    <script src="scripts.js"></script>
+</body>
+
+</html>
+
+
