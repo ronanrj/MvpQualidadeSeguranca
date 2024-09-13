@@ -88,8 +88,22 @@ def predict(form: PacienteSchema):
     model = Model()
     #avaliador = Avaliador()
     preProcessador = PreProcessador()
-    pipeline = Pipeline()
+    #pipeline = Pipeline()
     
+    # Preparando os dados para o modelo
+    X_input = preProcessador.preparar_form(form)
+    
+    # Carregando modelo
+    model_path = './MachineLearning/pipelines/bg_obesidade_pipeline.pkl' #'./MachineLearning/pipelines/bg_obesidade_pipeline.pkl'
+    # modelo = Model.carrega_modelo(ml_path)
+    pipeline = model.carrega_modelo(model_path)
+    
+     # Realizar a predição
+    try:
+        nobeyesdad = pipeline.predict(X_input)[0]  # Certifique-se de pegar a primeira predição
+    except Exception as e:
+        return {"message": f"Erro na predição: {str(e)}"}, 400
+        
     # Recuperando os dados do formulário
     name = form.name
     age = form.age
@@ -110,11 +124,11 @@ def predict(form: PacienteSchema):
     mtrans = form.mtrans
         
     # Preparando os dados para o modelo
-    X_input = preProcessador.preparar_form(form)
+    #X_input = preProcessador.preparar_form(form)
     # Carregando modelo
-    model_path = './MachineLearning/pipelines/bg_obesidade_pipeline.pkl' #'./MachineLearning/pipelines/bg_obesidade_pipeline.pkl'
+    #model_path = './MachineLearning/pipelines/bg_obesidade_pipeline.pkl' #'./MachineLearning/pipelines/bg_obesidade_pipeline.pkl'
     # modelo = Model.carrega_modelo(ml_path)
-    modeloPred = pipeline.carrega_pipeline(model_path)
+    #modeloPred = pipeline.carrega_pipeline(model_path)
     # Realizando a predição
     #nobeyesdad = model.preditor(modeloPred, X_input)[0]
     
@@ -136,7 +150,7 @@ def predict(form: PacienteSchema):
                 tue = tue,
                 caec = caec,
                 mtrans = mtrans,
-                nobeyesdad = "nobeyesdad"
+                nobeyesdad = nobeyesdad
     )
     logger.debug(f"Adicionando produto de nome: '{paciente.name}'")
     
