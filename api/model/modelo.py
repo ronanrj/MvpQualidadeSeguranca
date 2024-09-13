@@ -18,7 +18,7 @@ class Model:
             raise Exception('Formato de arquivo não suportado')
         return model
     
-    def preditor(model, X_input):
+    def preditor(self,model, X_input):
         """Realiza a predição de um paciente com base no modelo treinado
         """
         diagnosis = model.predict(X_input)

@@ -83,8 +83,13 @@ def predict(form: PacienteSchema):
     Returns:
         dict: representação do paciente e diagnóstico associado
     """
-    # TODO: Instanciar classes
-
+    # Instanciação das Classes
+    #carregador = Carregador()
+    model = Model()
+    #avaliador = Avaliador()
+    preProcessador = PreProcessador()
+    pipeline = Pipeline()
+    
     # Recuperando os dados do formulário
     name = form.name
     age = form.age
@@ -105,13 +110,13 @@ def predict(form: PacienteSchema):
     mtrans = form.mtrans
         
     # Preparando os dados para o modelo
-    #X_input = PreProcessador.preparar_form(form)
+    X_input = preProcessador.preparar_form(form)
     # Carregando modelo
-    #model_path = './MachineLearning/pipelines/model_pipeline.pkl'
+    model_path = './MachineLearning/pipelines/bg_obesidade_pipeline.pkl' #'./MachineLearning/pipelines/bg_obesidade_pipeline.pkl'
     # modelo = Model.carrega_modelo(ml_path)
-    #modelo = Pipeline.carrega_pipeline(model_path)
+    modeloPred = pipeline.carrega_pipeline(model_path)
     # Realizando a predição
-    #nobeyesdad = str(Model.preditor(modelo, X_input)[0])
+    #nobeyesdad = model.preditor(modeloPred, X_input)[0]
     
     paciente = Paciente(
                 name = name,
