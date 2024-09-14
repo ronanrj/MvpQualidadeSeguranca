@@ -1,6 +1,7 @@
 import pickle
 import numpy as np
 import pandas as pd
+from sklearn.model_selection import train_test_split
 
 class PreProcessador:
 
@@ -56,21 +57,31 @@ class PreProcessador:
         # Codificar variáveis categóricas (usar o mesmo método que você usou no treino)
         df_encoded = pd.get_dummies(df)
         
-        # Ajuste: Adicionar colunas faltantes com valor 0, se necessário (para compatibilidade com o treino)
-        # Aqui removemos a dependência de `scaler.feature_names_in_` e usamos as colunas do X de treino.
-        num_colunas_treino = self.scaler.n_features_in_  # Número de colunas que o scaler conhece
-        df_encoded = df_encoded.reindex(columns=range(colunas_treino), fill_value=0)
+        # Carregar as colunas do treino
+        colunas_treino = pd.read_csv('./MachineLearning/data/X_test_dataset_obesidade.csv').columns
         
+        # Verificar o alinhamento das colunas (as colunas de df_encoded devem ter o mesmo número e ordem)
+        df_encoded = df_encoded.reindex(columns=colunas_treino, fill_value=0)
+        
+        # Verificar se o número de colunas está correto
+        if df_encoded.shape[1] != len(colunas_treino):
+            raise ValueError("Erro: o número de colunas no formulário não corresponde ao número esperado do conjunto de treino.")
+
+        # Converter o DataFrame para numpy array
+        df_encoded_np = df_encoded.values
+        
+        # Certificar que as colunas estejam alinhadas com as colunas do treino
+        with open('./MachineLearning/scalers/standard_scaler_obesidade.pkl', 'rb') as f:
+            scaler = pickle.load(f)
+                
         # Normalizar/padronizar os dados de entrada
-        X_input = self.scaler.transform(df_encoded)
+        X_input = scaler.transform(df_encoded_np)
         
-        # Faremos o reshape para que o modelo entenda que estamos passando
-        #X_input = X_input.reshape(1, -1)
         return X_input
     
     def scaler(self,X_train):
         """ Normaliza os dados. """
         # normalização/padronização
-        scaler = pickle.load(open('./MachineLearning/scalers/minmax_scaler_obesidade.pkl', 'rb'))
+        scaler = pickle.load(open('./MachineLearning/scalers/standard_scaler_obesidade.pkl', 'rb'))
         reescaled_X_train = scaler.transform(X_train)
         return reescaled_X_train

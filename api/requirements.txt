@@ -7,9 +7,9 @@ pydantic
 SQLAlchemy
 SQLAlchemy-Utils
 typing_extensions
-scikit-learn
+scikit-learn == 1.3.2
 pandas
-scikit-learn
+scikit-learn == 1.3.2
 numpy
 pytest
 jupyter

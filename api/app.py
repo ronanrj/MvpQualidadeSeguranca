@@ -1,3 +1,4 @@
+import pickle
 from flask_openapi3 import OpenAPI, Info, Tag
 from flask import redirect
 from urllib.parse import unquote
@@ -91,16 +92,29 @@ def predict(form: PacienteSchema):
     #pipeline = Pipeline()
     
     # Preparando os dados para o modelo
-    X_input = preProcessador.preparar_form(form)
+    # Preparar os dados para o modelo
+    try:
+        X_input = preProcessador.preparar_form(form)
+    except ValueError as e:
+        return {"message": f"Erro no preprocessamento: {str(e)}"}, 400
     
     # Carregando modelo
     model_path = './MachineLearning/pipelines/bg_obesidade_pipeline.pkl' #'./MachineLearning/pipelines/bg_obesidade_pipeline.pkl'
     # modelo = Model.carrega_modelo(ml_path)
     pipeline = model.carrega_modelo(model_path)
     
+     # Verificar e ajustar o formato de X_input
+    if X_input.ndim == 1:
+        X_input = X_input.reshape(1, -1)  # Garante que tenha pelo menos duas dimensões
+        
+    # Carregar o LabelEncoder usado no treinamento
+    with open('./MachineLearning/label_encoders/nobeyesdad_encoder.pkl', 'rb') as file:
+        label_encoder = pickle.load(file)
+        
      # Realizar a predição
     try:
-        nobeyesdad = pipeline.predict(X_input)[0]  # Certifique-se de pegar a primeira predição
+        nobeyesdad_numeric = pipeline.predict(X_input)[0]  # Certifique-se de pegar a primeira predição
+        nobeyesdad = label_encoder.inverse_transform([nobeyesdad_numeric])[0]  # Converte para string, se necessário
     except Exception as e:
         return {"message": f"Erro na predição: {str(e)}"}, 400
         
